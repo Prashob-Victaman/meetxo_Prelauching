@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popup Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .button {
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .button:hover {
+        background-color: #0056b3;
+      }
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 30px; /* Increased padding for better spacing */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        width: 400px; /* Increased width */
+      }
+      .popup input {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .popup button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .popup button:hover {
+        background-color: #0056b3;
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+    </style>
+    <!-- Include EmailJS SDK -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+  </head>
+  <body>
+    <button class="button" onclick="openPopup()">Open Form</button>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="popup" id="popup">
+      <h2>Apply Now</h2>
+      <form id="contactForm">
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="email" name="email" placeholder="Email/Mobile" required />
+        <input type="text" name="link" placeholder="LinkedIn/Portfolio Link" />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      (function () {
+        emailjs.init("JT4rCc9ykjuKi_dzT"); // Replace with your actual public key
+      })();
+
+      function openPopup() {
+        document.getElementById("popup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+      }
+
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+      }
+
+      document.getElementById("overlay").addEventListener("click", closePopup);
+
+      // Handle form submission
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          const formData = new FormData(this);
+          const data = {};
+          formData.forEach((value, key) => {
+            data[key] = value; // Populate data object with form values
+          });
+
+          // Send the email using EmailJS
+          emailjs.send("service_21qacpu", "template_bsay34q", data).then(
+            (response) => {
+              alert("Email sent successfully!");
+              closePopup(); // Close popup on success
+            },
+            (error) => {
+              console.error("Error:", error);
+              alert("There was an error sending the email.");
+            }
+          );
+        });
+    </script>
+  </body>
+</html>

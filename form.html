@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apply Now</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input, button {
+            width: calc(100% - 30px); /* Adjusted width to account for padding */
+            padding: 15px;
+            margin: 15px auto; /* Centering margins */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: block;
+            font-size: 16px;
+            box-sizing: border-box; /* Ensures padding is included in width */
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <img src="https://res.cloudinary.com/djocenrah/image/upload/v1738746476/meetxoLogo_z5py6g.png" alt="Logo" class="logo">
+        <h2>Apply Now</h2>
+        <form id="contactForm">
+            <input type="text" name="name" placeholder="Name" required />
+            <input type="email" name="email" placeholder="Email/Mobile" required />
+            <input type="text" name="link" placeholder="LinkedIn/Portfolio Link" />
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    
+    <script>
+        (function () {
+            emailjs.init("JT4rCc9ykjuKi_dzT"); // Replace with your actual public key
+        })();
+        
+        document.getElementById("contactForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            emailjs.send("service_21qacpu", "template_bsay34q", data).then(
+                (response) => {
+                    alert("Email sent successfully!");
+                },
+                (error) => {
+                    console.error("Error:", error);
+                    alert("There was an error sending the email.");
+                }
+            );
+        });
+    </script>
+</body>
+</html>
